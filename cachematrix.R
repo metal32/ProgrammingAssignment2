@@ -19,8 +19,24 @@ getinv<-function() inv
 list(set=set,get=get,setinv=setinv,getinv=getinv)
 }
 
-## Write a short comment describing this function
+## This function return the inverse of the original matrix if available
+## from getinv function of makeCacheMatrix otherwise itself calculate 
+## the inverse and return it.
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+  inv<-x$getinv()
+  if(!is.null(inv)){
+    message("getting cached data")
+    return(inv)
+  }
+  ##solve function is used to calculate inverse of a matrix
+  data<-x$get()
+  inv<-solve(data)
+  x$setinv(inv)
+  return(inv)
 }
+## We can check our function by randomnly making a matrix of 100 rows and columns 
+## and use Sys.time() to calulate the time diference as it came to 0.003 seconds
+## in my case and next time time difference was zero
+
